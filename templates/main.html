@@ -1,0 +1,40 @@
+{% extends "loggedinbase.html" %}
+{% block headcontent %}
+<script type="text/javascript" src="{{ STATIC_PREFIX }}js/timesheet.js">
+</script>
+{% endblock %}
+{% block content %}
+<div id="dialog" style="display: none;"></div>
+<table>
+	<tr style="vertical-align: top; ">
+		<td style="padding-right: 30px;">
+			<form onSubmit="sendEntry(this); return false;" id="entryform">
+				<table>
+					{{ entry_form }}
+				</table>
+				<input type="submit" value="Add"/>
+				<div class="message"></div>
+			</form>
+		</td>
+		<td style="padding-left: 30px; border-left: 1px solid gray;">
+			<table id="list">
+				<thead>
+					<tr>
+						<th>Bill</th>
+						<th>Date</th>
+						<th>Start time</th>
+						<th>End time</th>
+						<th>Total [h]</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+			<a href="javascript:list.getChecked()">count</a>
+			<br/>
+			<div id="dltsbut">Download</div>
+			<!--a href="timesheet">Download timesheet</a-->
+		</td>
+	</tr>
+</table>
+{% endblock %}

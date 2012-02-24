@@ -1,0 +1,63 @@
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+<html>
+	<head>
+		<title>{% block title %}Timeliste{% endblock %}</title>
+		<script type="text/javascript" src="{{ STATIC_PREFIX }}js/jquery.js"></script>
+		<script type="text/javascript" src="{{ STATIC_PREFIX }}js/jquery-ui.js"></script>
+		<script type="text/javascript" src="{{ STATIC_PREFIX }}js/jquery-ui-timepicker-addon.js"></script>
+		<link rel="stylesheet" href="{{ STATIC_PREFIX }}css/jquery-ui/smoothness/jquery-ui.css"></script>
+		<style>
+			.ui-widget {
+				font-size: 8pt;
+			}
+			body {
+				padding: 50px;
+			}
+			#list tbody tr {
+				height: 20px;
+				margin: 5px;
+			}
+			#list tbody td {
+				text-align: right;
+				padding-left: 5px;
+				padding-right: 5px;
+			}
+			table {
+				border-collapse: collapse;
+			}
+			tr.odd {
+				background-color: #CCC;
+			}
+			tr.even {
+			}
+			div.message {
+				border: 1px solid;
+				padding: 5px;
+				font-size: 0.9em;
+			}
+			div.error {
+				border-color:#F00;
+				color: #F00;
+			}
+			div.info {
+				border-color:#00F;
+				color: #0FF;
+			}
+			div.warning {
+				border-color: #FF0;
+				color: #FF0;
+			}
+			form#entryform {
+				width: 300px;
+			}
+		</style>
+	{% block headcontent %} {% endblock %}
+	</head>
+	<body>
+		{% block mainheader %}
+		{% endblock %}
+		{% block content %}
+		{% endblock %}
+	</body>
+</html>

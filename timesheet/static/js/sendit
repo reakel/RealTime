@@ -1,0 +1,2 @@
+curl --dump-header - -H "Content-Type: application/json" -X POST --data '{ "billed": false, "date": "2012-02-19", "end_time": "23:30:22", "start_time": "22:56:22" }' http://localhost:8000/api/v1/entry
+
