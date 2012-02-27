@@ -1,0 +1,16 @@
+{% extends "loggedinbase.html" %}
+{% block content %}
+<div id="dialog" style="display: none;"></div>
+<table>
+	<tr style="vertical-align: top; ">
+		<td style="padding-right: 30px;">
+			{% block leftcol %}
+			{% endblock %}
+		</td>
+		<td style="padding-left: 30px; border-left: 1px solid gray;">
+			{% block rightcol %}
+			{% endblock %}
+		</td>
+	</tr>
+</table>
+{% endblock %}

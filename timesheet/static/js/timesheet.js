@@ -4,7 +4,7 @@ var list = null;
 var form = null;
 var apiUrl = "api/v1/entry/";
 var apiLimit = 27;
-var apiUrlSuffix = "?billed=false&limit=" + apiLimit;
+var apiUrlSuffix = "?limit=" + apiLimit;
 var currApiUrl = apiUrl + apiUrlSuffix;
 $(document).ready(function() {
 		list = $("#list").first();
@@ -20,9 +20,9 @@ $(document).ready(function() {
 		$('form').find('[name="end_time"]').timepicker({}).timepicker("setTime", now);
 		$('form').first().entry=null;
 
-		$('#dltsbut').button({ text: "Download timesheet"}).click(function() {
+		$('#dltsbut').button({ text: "Make Timesheet"}).click(function() {
 			var chkstr = list.getChecked();
-			window.location.href = "timesheet?"+chkstr;
+			window.location.href = "maketimesheet?"+chkstr;
 			$("#dialog").html("Are all entries in the downloaded timesheet correct?").dialog({
 				title: "Message", 
 				buttons: { 
@@ -156,7 +156,6 @@ function sendEntry(form) {
 	form.entry.date = $(form).find('[name="date"]').val();
 	form.entry.start_time = $(form).find('[name="start_time"]').val() + ":00";
 	form.entry.end_time = $(form).find('[name="end_time"]').val() + ":00";
-	form.entry.billed=false;
 	var data = JSON.stringify(form.entry);
 	$(form).find('input[type="submit"]').attr("disabled","disabled");
 	$.ajax({

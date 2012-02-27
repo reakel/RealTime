@@ -1,13 +1,9 @@
-{% extends "loggedinbase.html" %}
+{% extends "twoocols.html" %}
 {% block headcontent %}
 <script type="text/javascript" src="{{ STATIC_PREFIX }}js/timesheet.js">
 </script>
 {% endblock %}
-{% block content %}
-<div id="dialog" style="display: none;"></div>
-<table>
-	<tr style="vertical-align: top; ">
-		<td style="padding-right: 30px;">
+	{% block leftcol %}
 			<form onSubmit="sendEntry(this); return false;" id="entryform">
 				<table>
 					{{ entry_form }}
@@ -15,8 +11,8 @@
 				<input type="submit" value="Add"/>
 				<div class="message"></div>
 			</form>
-		</td>
-		<td style="padding-left: 30px; border-left: 1px solid gray;">
+	{% endblock %}
+	{% block rightcol %}
 			<table id="list">
 				<thead>
 					<tr>
@@ -32,9 +28,6 @@
 			</table>
 			<a href="javascript:list.getChecked()">count</a>
 			<br/>
-			<div id="dltsbut">Download</div>
+			<div id="dltsbut">Make Timesheet</div>
 			<!--a href="timesheet">Download timesheet</a-->
-		</td>
-	</tr>
-</table>
-{% endblock %}
+	{% endblock %}

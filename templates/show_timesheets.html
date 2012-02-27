@@ -1,0 +1,35 @@
+{% extends "twoocols.html" %}
+{% block headcontent %}
+<script type="text/javascript">
+	$(document).ready(function() {
+	$('.editbut')
+	.button({ icons: { primary: 'ui-icon-trash' }, text: false, background: false})
+	.click(function() {
+		alert($(this).attr("value"));
+		});
+	});
+</script>
+{% endblock %}
+{% block leftcol %}
+<table>
+	<thead>
+		<tr>
+			<th>First Date</th>
+			<th>Last Date</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for ts in timesheets %}
+		<tr>
+			<td>{{ ts.first_date }}</td>
+			<td>{{ ts.last_date }}</td>
+			<td><div class="editbut" value="{{ ts.id }}"></div></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}
+{% block rightcol %}
+Timsheet details here
+{% endblock %}
