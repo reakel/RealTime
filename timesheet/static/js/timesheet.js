@@ -23,18 +23,6 @@ $(document).ready(function() {
 		$('#dltsbut').button({ text: "Make Timesheet"}).click(function() {
 			var chkstr = list.getChecked();
 			window.location.href = "maketimesheet?"+chkstr;
-			$("#dialog").html("Are all entries in the downloaded timesheet correct?").dialog({
-				title: "Message", 
-				buttons: { 
-					Yes: function() {
-						$("#list tbody tr").each(function (key, obj) { obj.deleteEntry(); });
-						$(this).dialog("close");	
-					}, 
-					No: function () {
-						$(this).dialog("close");
-						} 
-					}
-				});
 			});
 		});
 

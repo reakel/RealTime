@@ -37,6 +37,6 @@ class EntryResource(ModelResource):
         return super(EntryResource, self).obj_create(bundle, request, user=request.user)
 
 class TimesheetResource(ModelResource):
-    entries = fields.ToManyField(EntryResource,'entry_set')
+    entries = fields.ToManyField(EntryResource,'entry_set',full=True)
     class Meta:
         queryset = Timesheet.objects.all()

@@ -12,8 +12,9 @@ urlpatterns = patterns('',
         )
 urlpatterns += patterns('timesheet.views',
         (r'^$', 'main_view'),
-        (r'^accounts/profile', 'main_view'),
+#        (r'^accounts/profile', 'main_view'),
         (r'^timesheet', 'show_timesheets'),
+        (r'^downloadtimesheet', 'download_timesheet'),
         (r'^maketimesheet', 'make_timesheet'),
         (r'^logout', 'logout_view'),
         )

@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect
 from django.db.models import Max, Min
 from forms import *
-from maketimesheet import make_timesheet
+import maketimesheet
 from models import Entry
 import json
 
@@ -23,6 +23,8 @@ def make_timesheet(request):
     if request.GET.get("entries"):
         conds["pk__in"] = json.loads(request.GET["entries"])
     entries = Entry.objects.filter(**conds)[:27]
+    if entries.count() <= 0:
+        return redirect(main_view)
     timesheet = Timesheet(user=request.user)
     timesheet.save()
     timesheet.entry_set = entries
@@ -33,11 +35,11 @@ def make_timesheet(request):
 def download_timesheet(request):
     filename = '/usr/local/wsgi/timeliste/timesheet/timesheet.doc'
     if not request.method == "GET": return HttpResponse("FU")
-    conds = {'timesheet':None, 'user': request.user}
+    conds = { 'user': request.user}
     if request.GET.get("entries"):
-        conds["pk__in"] = json.loads(request.GET["entries"])
-    entries = Entry.objects.filter(**conds)[:27]
-    data = make_timesheet(filename,entries)
+        conds["pk"] = request.GET["ts"]
+    entries = Timesheet.objects.filter(**conds)[0].entry_set
+    data = maketimesheet.make_timesheet(filename,entries.all())
     response = HttpResponse(mimetype="application/doc")
     response["Content-Disposition"] = "attachment; file-name=timesheet.doc"
     response.write(data)
