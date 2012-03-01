@@ -22,13 +22,8 @@ def writeentry(s, offset, step, e):
 			offset += step
 		offset = skipfields(s, offset, 1)
 	return offset
-def make_timesheet(filename, entrylist):	
-    hs = (
-            ('1 ', '02.01', '10:00', '12:00', '2'),
-	    ('2 ', '09.01', '12:00', '16:00', '4'),
-	    ('2 ', '09.01', '12:00', '16:00', '4'),
-        )
-	
+def make_timesheet(filename, timesheet):	
+    entrylist = timesheet.entry_set.all()
     fd = open(filename,'rb')
     s = fd.read()
     fd.close()

@@ -4,6 +4,7 @@ from django.contrib.auth import logout
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect
 from django.db.models import Max, Min
+from django.core.urlresolvers import reverse
 from forms import *
 import maketimesheet
 from models import Entry
@@ -22,13 +23,16 @@ def make_timesheet(request):
     conds = {'timesheet':None, 'user': request.user}
     if request.GET.get("entries"):
         conds["pk__in"] = json.loads(request.GET["entries"])
+        print json.loads(request.GET["entries"])
     entries = Entry.objects.filter(**conds)[:27]
     if entries.count() <= 0:
         return redirect(main_view)
     timesheet = Timesheet(user=request.user)
     timesheet.save()
     timesheet.entry_set = entries
-    return redirect(show_timesheets)
+    timesheet.save()
+    d = { 'jscode': 'window.location = \"%s#!%i\";' % (reverse(show_timesheets),timesheet.id) }
+    return render_to_response("runjs.html", d)
 
 
 @login_required
@@ -36,18 +40,21 @@ def download_timesheet(request):
     filename = '/usr/local/wsgi/timeliste/timesheet/timesheet.doc'
     if not request.method == "GET": return HttpResponse("FU")
     conds = { 'user': request.user}
-    if request.GET.get("entries"):
-        conds["pk"] = request.GET["ts"]
-    entries = Timesheet.objects.filter(**conds)[0].entry_set
-    data = maketimesheet.make_timesheet(filename,entries.all())
+    ts = Timesheet.objects.filter(**conds).get(pk=request.GET["ts"])
+    if not ts.is_downloaded:
+        ts.is_downloaded = True
+        ts.save()
+    data = maketimesheet.make_timesheet(filename,ts)
     response = HttpResponse(mimetype="application/doc")
     response["Content-Disposition"] = "attachment; file-name=timesheet.doc"
     response.write(data)
     return response
 
 @login_required
-def show_timesheets(request):
-    timesheets = Timesheet.objects.filter(user=request.user).annotate(first_date=Min('entry__date'),last_date=Max('entry__date')).values('first_date','last_date','id')
+def show_timesheets(request,*args):
+    timesheets = Timesheet.objects.filter(user=request.user).order_by('-pk')
+    timesheets = timesheets.annotate(first_date=Min('entry__date'),last_date=Max('entry__date'))
+    timesheets = timesheets.values('first_date','last_date','id','is_downloaded')
     return render_to_response("show_timesheets.html", { 'timesheets': timesheets })
 
 

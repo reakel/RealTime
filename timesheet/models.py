@@ -11,6 +11,7 @@ def timediff(t1,t2):
 # Create your models here.
 class Timesheet(models.Model):
     user = models.ForeignKey(User)
+    is_downloaded = models.BooleanField(default=False)
 
 class Entry(models.Model):
     date = models.DateField()
