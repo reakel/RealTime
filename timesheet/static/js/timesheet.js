@@ -21,13 +21,26 @@ $(document).ready(function() {
 		$('form').first().entry=null;
 
 		$('#dltsbut').button({ text: "Make Timesheet"}).click(function() {
-			var chkstr = list.getChecked();
-			window.location.href = "maketimesheet?"+chkstr;
+			var ids = list.getChecked();
+			$.ajax({
+				url: '/maketimesheet',
+				type: 'POST',
+				contentType: 'application/json',
+				data: JSON.stringify({ 'entries': ids }),
+				dataType: 'json',
+				processData: false,
+				//complete: function(jqXHR, statusText) {
+				//	alert(jqXHR.responseText);
+				//},
+				success: function(data) {
+					window.location = data.url;
+				}
+			});
 			});
 		});
 
 function updateList() {
-	$.getJSON(currApiUrl, function(data) {
+	/**$.getJSON(currApiUrl, function(data) {
 			apiData = data;
 			for (var i = 0; i < data.objects.length; i++) {
 				list.addEntry(data.objects[i]);
@@ -37,6 +50,28 @@ function updateList() {
 				updateList();
 			} else currApiUrl = apiUrl + apiUrlSuffix;
 			});
+			*/
+	$.ajax({
+		url: currApiUrl, 
+		dataType: 'json',
+		cache: false,
+		success: function(data) {
+				apiData = data;
+				for (var i = 0; i < data.objects.length; i++) {
+					list.addEntry(data.objects[i]);
+				}
+				if (data.meta.next != null) {
+					currApiUrl = data.meta.next;
+					updateList();
+				} else {
+					currApiUrl = apiUrl + apiUrlSuffix;
+					$(list).fadeIn();
+				}
+			},
+		error:	function(jqXHR, textStatus, errorThrown) {
+				$(list).append("Connection error");
+			}
+		});
 }
 
 
@@ -57,7 +92,7 @@ function addEntry(data,fade) {
 		var str = "";
 		$(this).html("");
 		this.billCB = $('<input type="checkbox"/>');
-		this.billCB.attr("checked",true);
+		this.billCB.attr("checked",true).val(this.data.id);
 		$(this)
 			.append($('<td></td>').append(this.billCB))
 			.append("<td>" + this.data.date + "</td>")
@@ -116,11 +151,10 @@ function getChecked() {
 	this.find('tr').not(':eq(0)').each(
 			function(key,obj) {
 				if (obj.billCB.attr("checked")) {
-					ids.push(obj.data.id);
+					ids.push(obj.billCB.val());
 				} else foundUnChecked = true;
 			});
-	if (foundUnChecked) return "entries=" + JSON.stringify(ids);
-	else return "";
+	return ids;
 }
 
 function timeDiff(endTime, startTime) {
@@ -184,3 +218,5 @@ function showMessage(parentEle, type, text) {
 	setTimeout(function() { message.fadeOut("slow") }, 3000);
 }
 $(document).ready(function() { $(".message").hide(); });
+
+

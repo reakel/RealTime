@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from tastypie.models import create_api_key
 from tastypie import fields
+from tastypie.cache import NoCache
 
 models.signals.post_save.connect(create_api_key, sender=User)
 
@@ -29,6 +30,7 @@ class EntryResource(ModelResource):
         authentication = WebAuthentication()
         authorization = DjangoAuthorization()
         exclude = ( 'user', )
+        cache = NoCache()
 
     def apply_authorization_limits(self, request, object_list):
         return object_list.filter(user=request.user)

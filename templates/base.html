@@ -7,13 +7,47 @@
 		<script type="text/javascript" src="{{ STATIC_PREFIX }}js/jquery-ui.js"></script>
 		<script type="text/javascript" src="{{ STATIC_PREFIX }}js/jquery-ui-timepicker-addon.js"></script>
 		<script type="text/javascript" src="{{ STATIC_PREFIX }}js/jquery-hashchange.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+					$('#menu').buttonset();
+					});
+		</script>
 		<link rel="stylesheet" href="{{ STATIC_PREFIX }}css/jquery-ui/smoothness/jquery-ui.css"></script>
 		<style>
+			#header {
+				width: 100%;
+				background-color: #BBAAFF;
+				color: #FFFFFF;
+				margin: 0;
+				padding: 10px;
+				padding-left: 100px;
+			}
+			#header h3 {
+			}
+			#content {
+				margin-left: 50px;
+			}
+
+			#menu li {
+				display: inline;
+			}
+			#menu .ui-widget {
+				font-size: 1em;
+			}
 			.ui-widget {
 				font-size: 8pt;
 			}
 			body {
-				padding: 50px;
+				padding: 0px;
+				margin: 0px;
+				font-family: sans-serif;
+				font-size: 10pt;	
+			}
+			table {
+				font-size: 1em;
+			}
+			#list {
+				display: none;
 			}
 			#list tbody tr, .list tbody td {
 				height: 20px;
@@ -28,7 +62,7 @@
 				border-collapse: collapse;
 			}
 			tr.odd {
-				background-color: #CCC;
+				background-color: #E6E6E6;
 			}
 			tr.even {
 			}
@@ -59,7 +93,9 @@
 <div id="dialog" style="display: none;"></div>
 		{% block mainheader %}
 		{% endblock %}
+		<div id="content">
 		{% block content %}
 		{% endblock %}
+		</div>
 	</body>
 </html>

@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from datetime import time
+from datetime import time, datetime
 from django.core.exceptions import ValidationError
 
 def timediff(t1,t2):
@@ -11,7 +11,15 @@ def timediff(t1,t2):
 # Create your models here.
 class Timesheet(models.Model):
     user = models.ForeignKey(User)
-    is_downloaded = models.BooleanField(default=False)
+    created = models.DateField(auto_now_add=True)
+    downloaded = models.DateField(blank=True, null=True)
+
+    def _get_is_downloaded(self):
+        return (self.downloaded!=None)
+    def _set_is_downloaded(self,velue):
+        self.downloaded = datetime.now()
+
+    is_downloaded = property(_get_is_downloaded,_set_is_downloaded)
 
 class Entry(models.Model):
     date = models.DateField()
@@ -37,16 +45,16 @@ class Entry(models.Model):
                 date=self.date,
                 start_time__lte=self.start_time,
                 end_time__gt=self.start_time
-                ).count()
-        if c > 0 and not self.id: raise ValidationError("Cannot create multiple entries in the same time interval")
+                ).exclude(pk=self.id).count()
+        if c > 0: raise ValidationError("Cannot create multiple entries in the same time interval")
         c = Entry.objects.filter(
                 user=self.user, 
                 date=self.date,
                 start_time__lt=self.end_time,
                 end_time__gte=self.end_time
-                ).count()
-        if c > 0 and not self.id: raise ValidationError("Cannot create multiple entries in the same time interval")
+                ).exclude(pk=self.id).count()
+        if c > 0: raise ValidationError("Cannot create multiple entries in the same time interval")
         c = Entry.objects.filter(user=self.user, timesheet=None).count()
-        if c > 27: raise ValidationError("Limit reached. Please bill current entries before adding more")
+        if c > 27 and not self.id: raise ValidationError("Limit reached. Please bill current entries before adding more")
         super(Entry,self).save(args, kwargs)
 
