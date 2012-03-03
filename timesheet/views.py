@@ -22,8 +22,8 @@ def main_view(request):
     t = get_template('main.html')
     return HttpResponse(t.render(c))
 
-@csrf_exempt
 @login_required
+@csrf_exempt
 def make_timesheet(request):
     if not request.method == "POST": raise Http404
     try:
@@ -37,9 +37,7 @@ def make_timesheet(request):
             'timesheet':None, 
             'user': request.user
             }
-    print conds
     entries = Entry.objects.filter(**conds)[:27]
-    print entries.values('pk')
     if entries.count() <= 0:
         return HttpResponse('{ "success":false, "url":"" }', mimetype="application/json") 
     timesheet = Timesheet(user=request.user)

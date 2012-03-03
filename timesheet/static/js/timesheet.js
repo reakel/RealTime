@@ -22,15 +22,12 @@ $(document).ready(function() {
 		$('#dltsbut').button({ text: "Make Timesheet"}).click(function() {
 			var ids = list.getChecked();
 			$.ajax({
-				url: '/maketimesheet',
+				url:  'maketimesheet/',
 				type: 'POST',
 				contentType: 'application/json',
 				data: JSON.stringify({ 'entries': ids }),
 				dataType: 'json',
 				processData: false,
-				//complete: function(jqXHR, statusText) {
-				//	alert(jqXHR.responseText);
-				//},
 				success: function(data) {
 					window.location = data.url;
 				}

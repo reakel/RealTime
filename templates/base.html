@@ -2,6 +2,7 @@
 {% get_static_prefix as STATIC_PREFIX %}
 <html>
 	<head>
+		<base href="{% url timesheet.views.main_view %}"/>
 		<title>{% block title %}Timeliste{% endblock %}</title>
 		<script type="text/javascript" src="{{ STATIC_PREFIX }}js/jquery.js"></script>
 		<script type="text/javascript" src="{{ STATIC_PREFIX }}js/jquery-ui.js"></script>

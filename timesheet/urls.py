@@ -8,14 +8,14 @@ v1_api.register(TimesheetResource())
 
 urlpatterns = patterns('',
         (r'^api/', include(v1_api.urls)),
-        (r'login', 'django.contrib.auth.views.login'),
+        (r'login/', 'django.contrib.auth.views.login'),
         )
 urlpatterns += patterns('timesheet.views',
         (r'^$', 'main_view'),
 #        (r'^accounts/profile', 'main_view'),
         (r'^profile/$', 'edit_userprofile'),
-        (r'^timesheet', 'show_timesheets'),
-        (r'^downloadtimesheet', 'download_timesheet'),
-        (r'^maketimesheet', 'make_timesheet'),
-        (r'^logout', 'logout_view'),
+        (r'^timesheet/$', 'show_timesheets'),
+        (r'^downloadtimesheet/$', 'download_timesheet'),
+        (r'^maketimesheet/$', 'make_timesheet'),
+        (r'^logout/$', 'logout_view'),
         )
