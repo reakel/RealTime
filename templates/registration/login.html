@@ -2,14 +2,15 @@
 {% load url from future %}
 
 {% block content %}
-
+<br/>
+<div style="margin: 200px 200px 200px 250px; width 300px;">
+<h3>RealTime Login</h3>
 {% if form.errors %}
 <p>Your username and password didn't match. Please try again.</p>
 {% endif %}
-
-<form method="post" action="{% url 'django.contrib.auth.views.login' %}">
+<form  method="post" action="{% url 'django.contrib.auth.views.login' %}">
 	{% csrf_token %}
-	<table>
+	<table >
 		<tr>
 			<td>{{ form.username.label_tag }}</td>
 			<td>{{ form.username }}</td>
@@ -18,10 +19,14 @@
 			<td>{{ form.password.label_tag }}</td>
 			<td>{{ form.password }}</td>
 		</tr>
+		<tr>
+			<td>
+				<input type="submit" value="Login" />
+				<input type="hidden" name="next" value="{{ next }}" />
+			</td>
+		</tr>
 	</table>
 
-	<input type="submit" value="login" />
-	<input type="hidden" name="next" value="{{ next }}" />
 </form>
-
+</div>
 {% endblock %}

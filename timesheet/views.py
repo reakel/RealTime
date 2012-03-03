@@ -7,9 +7,10 @@ from django.db.models import Max, Min
 from django.core.urlresolvers import reverse
 from django.template import RequestContext, Context
 from django.template.loader import get_template
+from django.views.decorators.csrf import csrf_exempt
 from forms import *
 import maketimesheet
-from models import Entry
+from models import Entry, Timesheet
 import json
 
 loginurl = 'login'
@@ -21,6 +22,7 @@ def main_view(request):
     t = get_template('main.html')
     return HttpResponse(t.render(c))
 
+@csrf_exempt
 @login_required
 def make_timesheet(request):
     if not request.method == "POST": raise Http404
@@ -73,4 +75,18 @@ def show_timesheets(request,*args):
 
 def logout_view(request):
     logout(request)
-    return render_to_response("logout.html")
+    return redirect(main_view)
+
+@login_required
+def edit_userprofile(request):
+    if request.method == "POST":
+        uf = UserForm(request.POST, instance=request.user)
+        ufp = UserProfileForm(request.POST, instance=request.user.get_profile())
+        uf.save()
+        ufp.save()
+    uf = UserForm(instance=request.user)
+    upf = UserProfileForm(instance=request.user.get_profile())
+    t = get_template('userprofile.html')
+    c = RequestContext(request, { 'user_form': uf, 'user_profile_form': upf })
+    return HttpResponse(t.render(c))
+

@@ -10,22 +10,62 @@
 		<script type="text/javascript">
 			$(document).ready(function() {
 					$('#menu').buttonset();
+					$("input[type=submit]").button();
+					$("#body").fadeIn(1000);
+					$("#menu a").click(function() {
+						var a = this;
+						$("#body").fadeOut("fast", function() {
+							window.location = $(a).attr("href");
+							});
+						return false;
+						});
 					});
 		</script>
 		<link rel="stylesheet" href="{{ STATIC_PREFIX }}css/jquery-ui/smoothness/jquery-ui.css"></script>
 		<style>
 			#header {
 				width: 100%;
-				background-color: #BBAAFF;
+				background-color: #665577;
 				color: #FFFFFF;
 				margin: 0;
-				padding: 10px;
-				padding-left: 100px;
+				margin-top: -5px;
+				padding: 10px 0px 10px 0px;
 			}
 			#header h3 {
+				font-size: 2.5em;
+				margin: 10px;
+				margin-left: 100px;
+				margin-right: 50px;
+			}
+			#header small {
+				margin-left: 100px;
+			}
+
+			#body {
+				padding: 0;
+				margin: 0px auto;
+				width: 800px;
+				background-color: #EEEEFF;
+				min-height: 600px;
+				display: none;
 			}
 			#content {
-				margin-left: 50px;
+				padding: 0px;
+				margin: 0;
+				width: 100%;
+			}
+			#menu {
+				width: 100%;
+				padding: 5px 0px 5px 0px;
+				margin-left:0;
+				margin-right: 0;
+				margin-top: 0;
+				margin-bottom: 50px;
+				background-color: #554455;
+			}
+			#menu ul {
+				margin: 0px;
+				margin-left: 60px;
 			}
 
 			#menu li {
@@ -38,10 +78,13 @@
 				font-size: 8pt;
 			}
 			body {
-				padding: 0px;
+				padding: 30px 0px 0px 0px;
 				margin: 0px;
 				font-family: sans-serif;
 				font-size: 10pt;	
+				color: #554455;
+				background-color: #121112;
+				height: 100%;
 			}
 			table {
 				font-size: 1em;
@@ -86,16 +129,25 @@
 			form#entryform {
 				width: 300px;
 			}
+			input {
+				max-width: 200px;
+				font-size: 1em;
+			}
+			#dltsbut {
+				display: none;
+			}
 		</style>
 	{% block headcontent %} {% endblock %}
 	</head>
 	<body>
 <div id="dialog" style="display: none;"></div>
-		{% block mainheader %}
-		{% endblock %}
-		<div id="content">
-		{% block content %}
-		{% endblock %}
+		<div id="body" class="ui-corner-all">
+			{% block mainheader %}
+			{% endblock %}
+			<div id="content">
+				{% block content %}
+				{% endblock %}
+			</div>
 		</div>
 	</body>
 </html>

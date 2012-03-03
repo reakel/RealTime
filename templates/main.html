@@ -7,8 +7,14 @@
 			<form onSubmit="sendEntry(this); return false;" id="entryform">
 				<table>
 					{{ entry_form }}
+					<br/>
+					<tr>
+						<td></td>
+						<td style="text-align: right;">
+							<input type="submit" value="Add"/>
+						</td>
+					</tr>
 				</table>
-				<input type="submit" value="Add"/>
 				<div class="message"></div>
 			</form>
 	{% endblock %}
@@ -27,5 +33,6 @@
 				<tbody></tbody>
 			</table>
 			<br/>
-			<div id="dltsbut">Make Timesheet</div>
+			<br/>
+			<div id="dltsbut" style="width: 100px;">Make Timesheet</div>
 	{% endblock %}

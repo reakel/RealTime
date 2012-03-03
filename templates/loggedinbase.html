@@ -1,10 +1,14 @@
 {% extends "base.html" %}
 {% load url from future %}
 {% block mainheader %}
-<div id="header"><h3>RealTime</h3><small>Logged in as {{ user.username }}. <a href="{% url 'timesheet.views.logout_view' %}">Log out</a></small></div>
-<ul id="menu">
-	<li><a href="{% url 'timesheet.views.main_view' %}">home</a></li>
-	<li><a href="{% url 'timesheet.views.show_timesheets' %}">timesheets</a></li>
+<div id="header" class="ui-corner-top"><h3>RealTime</h3><small>Logged in as {{ user.get_full_name|default:user.username }}. </small></div>
+<div id="menu">
+<ul>
+	<li><a href="{% url 'timesheet.views.main_view' %}">Home</a></li>
+	<li><a href="{% url 'timesheet.views.show_timesheets' %}">Timesheets</a></li>
+	<li><a href="{% url 'timesheet.views.edit_userprofile' %}">Profile</a></li>
+	<li style="margin-left:1px;"><a href="{% url 'timesheet.views.logout_view' %}">Log out</a></li>
 </ul>
+</div>
 	
 {% endblock %}

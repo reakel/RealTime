@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from datetime import time, datetime
 from django.core.exceptions import ValidationError
+from django.db.models.signals import post_save
 
 def timediff(t1,t2):
     diff = (t1.hour-t2.hour)*60+t1.minute-t2.minute
@@ -58,3 +59,16 @@ class Entry(models.Model):
         if c > 27 and not self.id: raise ValidationError("Limit reached. Please bill current entries before adding more")
         super(Entry,self).save(args, kwargs)
 
+class UserProfile(models.Model):
+    birth_date = models.CharField(max_length=6, blank=True)
+    p_no = models.CharField(max_length=5, blank=True)
+    address = models.CharField(max_length=255, blank=True)
+    zip_code = models.CharField(max_length=4, blank=True)
+    city = models.CharField(max_length=255, blank=True)
+    user = models.ForeignKey(User, unique=True)
+
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+
+post_save.connect(create_user_profile, sender=User)

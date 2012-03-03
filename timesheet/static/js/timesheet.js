@@ -14,10 +14,9 @@ $(document).ready(function() {
 		updateList();
 		$('form').find('[name="date"]').datepicker({ dateFormat:'yy-mm-dd' }).datepicker("setDate", new Date());
 
-		$('form').find('[name="start_time"]').timepicker({}).timepicker("setTime", new Date());
-		var now = new Date();
-		now.setHours(now.getHours()+1);
-		$('form').find('[name="end_time"]').timepicker({}).timepicker("setTime", now);
+		times = findTimes(new Date());
+		$('form').find('[name="start_time"]').timepicker({}).timepicker("setTime", times[0]);
+		$('form').find('[name="end_time"]').timepicker({}).timepicker("setTime", times[1]);
 		$('form').first().entry=null;
 
 		$('#dltsbut').button({ text: "Make Timesheet"}).click(function() {
@@ -65,7 +64,6 @@ function updateList() {
 					updateList();
 				} else {
 					currApiUrl = apiUrl + apiUrlSuffix;
-					$(list).fadeIn();
 				}
 			},
 		error:	function(jqXHR, textStatus, errorThrown) {
@@ -119,6 +117,8 @@ function addEntry(data,fade) {
 	if (fade) $(entry).fadeIn("slow");
 	else $(entry).fadeIn("slow");
 	$(entry).css("display","table-row");
+	$(list).fadeIn("slow");
+	$("#dltsbut").fadeIn("slow");
 }
 
 function updateRowClasses() {
@@ -138,6 +138,11 @@ function deleteEntry() {
 		complete: function(jqXHR,statusText) {
 				if (statusText == 'success') {
 					$(this).fadeOut("fast", function() {  $(this).remove(); list.updateRowClasses();});
+					if ($(list).find("tbody tr").size() <= 1) {
+						$(list).fadeOut("fast");
+						$("#dltsbut").fadeOut("fast");
+
+					}
 				} else {
 					$(this).find(".delbutton").removeAttr("disabled").fadeIn("fast");
 				}
@@ -219,4 +224,26 @@ function showMessage(parentEle, type, text) {
 }
 $(document).ready(function() { $(".message").hide(); });
 
+function findTimes(now) {
+	var h_now = now.getHours();
+	var h_start = h_now - h_now%2;
+	var m_start = 0;
 
+	var h_end = h_start + 2;
+	var m_end = 0;
+	var times = [
+		formatTime(h_start,m_start),
+		formatTime(h_end, m_end)
+		];
+	return times;
+}
+
+
+
+function formatTime(hours,mins) {
+	hours += '';
+	mins += '';
+	while (hours.length < 2) hours = '0' + hours;
+	while (mins.length < 2) mins = '0' + mins;
+	return hours + ':' + mins;
+}

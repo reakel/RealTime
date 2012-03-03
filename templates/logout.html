@@ -1,4 +1,12 @@
 {% extends "base.html" %}
+
+{% block headcontent %}
+<script type="text/javascript">
+	$(document).ready(function() {
+		window.location='{% url timesheet.views.main_view %}';
+	});
+</script>
+{% endblock %}
 {% block content %}
 Logged out
 {% endblock %}
