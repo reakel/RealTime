@@ -1,6 +1,7 @@
 # Create your views here.
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from django.contrib.auth.forms import PasswordChangeForm
 from django.http import HttpResponse, Http404
 from django.shortcuts import render_to_response, redirect
 from django.db.models import Max, Min
@@ -88,3 +89,17 @@ def edit_userprofile(request):
     c = RequestContext(request, { 'user_form': uf, 'user_profile_form': upf })
     return HttpResponse(t.render(c))
 
+@login_required
+def change_password(request):
+    if request.method == "POST":
+        pf = PasswordChangeForm(request.POST, instance=request.user)
+        if pf.is_valid():
+            pf.save()
+            return HttpResponse("OK")
+        else:
+            return HttpResponse("FU")
+    else:
+        pf = PasswordChangeForm(request.user)
+        c = RequestContext(request, { 'password_form': pf })
+        t = get_template("changepass.html")
+        return HttpResponse(t.render(c))

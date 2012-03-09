@@ -18,4 +18,5 @@ urlpatterns += patterns('timesheet.views',
         (r'^downloadtimesheet/$', 'download_timesheet'),
         (r'^maketimesheet/$', 'make_timesheet'),
         (r'^logout/$', 'logout_view'),
+        (r'^changepass/$', 'change_password'),
         )

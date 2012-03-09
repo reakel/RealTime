@@ -60,6 +60,7 @@ function timeDiff(endTime, startTime) {
 </script>
 {% endblock %}
 {% block leftcol %}
+{% if timesheets %}
 <table class="list">
 	<thead>
 		<tr>
@@ -78,6 +79,9 @@ function timeDiff(endTime, startTime) {
 		{% endfor %}
 	</tbody>
 </table>
+{% else %}
+<b>No timesheets created</b>
+{% endif %}
 {% endblock %}
 {% block rightcol %}
 <div id="tsdetails" style="display: none;">

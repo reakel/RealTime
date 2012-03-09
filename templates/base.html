@@ -1,5 +1,6 @@
 {% load static %}
 {% get_static_prefix as STATIC_PREFIX %}
+<!DOCTYPE html>
 <html>
 	<head>
 		<base href="{% url timesheet.views.main_view %}"/>
@@ -44,7 +45,7 @@
 
 			#body {
 				padding: 0;
-				margin: 0px auto;
+				margin: 50px auto;
 				width: 800px;
 				background-color: #EEEEFF;
 				min-height: 600px;
@@ -79,7 +80,7 @@
 				font-size: 8pt;
 			}
 			body {
-				padding: 30px 0px 0px 0px;
+				padding: 0;
 				margin: 0px;
 				font-family: sans-serif;
 				font-size: 10pt;	
@@ -136,6 +137,7 @@
 			}
 			#dltsbut {
 				display: none;
+				width: 150px;
 			}
 		</style>
 	{% block headcontent %} {% endblock %}
