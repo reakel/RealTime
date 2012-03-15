@@ -9,6 +9,8 @@ v1_api.register(TimesheetResource())
 urlpatterns = patterns('',
         (r'^api/', include(v1_api.urls)),
         (r'login/', 'django.contrib.auth.views.login'),
+        (r'^changepass/$', 'django.contrib.auth.views.password_change'),
+        (r'^donechangepass/$', 'django.contrib.auth.views.password_change_done'),
         )
 urlpatterns += patterns('timesheet.views',
         (r'^$', 'main_view'),
@@ -18,5 +20,4 @@ urlpatterns += patterns('timesheet.views',
         (r'^downloadtimesheet/$', 'download_timesheet'),
         (r'^maketimesheet/$', 'make_timesheet'),
         (r'^logout/$', 'logout_view'),
-        (r'^changepass/$', 'change_password'),
         )

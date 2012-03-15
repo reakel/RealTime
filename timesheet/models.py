@@ -66,6 +66,8 @@ class UserProfile(models.Model):
     zip_code = models.CharField(max_length=4, blank=True)
     city = models.CharField(max_length=255, blank=True)
     user = models.ForeignKey(User, unique=True)
+    skattekommune = models.CharField(max_length=5, blank=True)
+    account_number = models.CharField(max_length=11, blank=True)
 
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
