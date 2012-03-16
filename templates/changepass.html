@@ -1,0 +1,9 @@
+{% extends 'loggedinbase.html' %}
+{% block content %}
+<form action="{% url timesheet.views.change_password %}" method="POST">
+	<table>
+		{{ password_form.as_table }}
+	</table>
+	<input type="submit" value="OK"/>
+</form>
+{% endblock %}
