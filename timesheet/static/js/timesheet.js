@@ -36,17 +36,6 @@ $(document).ready(function() {
 		});
 
 function updateList() {
-	/**$.getJSON(currApiUrl, function(data) {
-			apiData = data;
-			for (var i = 0; i < data.objects.length; i++) {
-				list.addEntry(data.objects[i]);
-			}
-			if (data.meta.next != null) {
-				currApiUrl = data.meta.next;
-				updateList();
-			} else currApiUrl = apiUrl + apiUrlSuffix;
-			});
-			*/
 	$.ajax({
 		url: currApiUrl, 
 		dataType: 'json',
@@ -68,6 +57,15 @@ function updateList() {
 			}
 		});
 }
+
+function updateHoursSum() {
+	var sum = 0;
+	$(list).find('tbody').find('tr').each(function (key, obj) {
+		sum += parseFloat(obj.getTimeDiff());
+	});
+	$('#hourssum span').html(sum.toFixed(2));
+}
+
 
 
 function addEntry(data,fade) {
@@ -116,6 +114,7 @@ function addEntry(data,fade) {
 	$(entry).css("display","table-row");
 	$(list).fadeIn("slow");
 	$("#dltsbut").fadeIn("slow");
+	updateHoursSum();
 }
 
 function updateRowClasses() {

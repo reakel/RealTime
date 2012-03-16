@@ -28,6 +28,7 @@ function loadTimesheet(id) {
 	$('#tsdetails').fadeOut('fast',function(){
 		$.getJSON('api/v1/'+'timesheet/'+id, function(data) {
 			if (data) {
+				var hourSum = 0;
 				$('#tsdetails tbody').html('');
 				$.each(data.entries, function(key,entry) {
 					$('#tsdetails tbody').append($('<tr></tr>')
@@ -36,11 +37,13 @@ function loadTimesheet(id) {
 					.append('<td>' + entry.end_time + '</td>')
 					.append('<td>' + timeDiff(entry.end_time,entry.start_time) + '</td>')
 					);
+					hourSum += parseFloat(timeDiff(entry.end_time,entry.start_time));
 				});
 				$('#tsdetails tbody').find('tr:even').addClass('odd');
 				$('#tsdetails tbody').find('tr:odd').addClass('even');
 				$('#dlts').attr('value',data.id);
 				$('#tsdetails').fadeIn();
+				$('#hourssum span').html(hourSum.toFixed(2));
 			}
 		});
 
@@ -85,6 +88,7 @@ function timeDiff(endTime, startTime) {
 {% endblock %}
 {% block rightcol %}
 <div id="tsdetails" style="display: none;">
+	<div id="hourssum">Sum hours: <span>0</span></div>
 	<table class="list">
 		<thead>
 			<tr>
