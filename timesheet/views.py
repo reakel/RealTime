@@ -9,6 +9,8 @@ from django.core.urlresolvers import reverse
 from django.template import RequestContext, Context
 from django.template.loader import get_template
 from django.views.decorators.csrf import csrf_exempt
+import os
+from settings import SITE_ROOT
 from forms import *
 import maketimesheet
 from models import Entry, Timesheet
@@ -51,7 +53,7 @@ def make_timesheet(request):
 
 @login_required
 def download_timesheet(request):
-    filename = '/usr/local/wsgi/timeliste/timesheet/timesheet.doc'
+    filename = os.path.join(SITE_ROOT,'timesheet/timesheet.doc')
     if not request.method == "GET": return HttpResponse("FU")
     conds = { 'user': request.user}
     ts = Timesheet.objects.filter(**conds).get(pk=request.GET["ts"])

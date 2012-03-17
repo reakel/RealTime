@@ -1,4 +1,11 @@
 {% extends 'loggedinbase.html' %}
+{% block headcontent %}
+<script type="text/javascript">
+$(document).ready(function() {
+$('#changepassbutton').button();
+});
+</script>
+{% endblock %}
 <h2>
 User profile
 </h2>
@@ -17,6 +24,6 @@ User profile
 </tr>
 </table>
 </form>
-<a href="{% url django.contrib.auth.views.password_change %}" />Change password</a>
+<a href="{% url django.contrib.auth.views.password_change %}" id="changepassbutton"/>Change password</a>
 </div>
 {% endblock %}

@@ -1,6 +1,7 @@
 # Django settings for realtime project.
 
 import rtconfig
+SITE_ROOT="/usr/local/wsgi/realtime"
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 

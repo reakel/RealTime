@@ -69,6 +69,9 @@ class UserProfile(models.Model):
     skattekommune = models.CharField(max_length=5, blank=True)
     account_number = models.CharField(max_length=11, blank=True)
 
+    def __unicode__(self):
+	return unicode(self.user.username)
+
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
