@@ -14,6 +14,8 @@
 					$('#menu').buttonset();
 					$("input[type=submit]").button();
 					$("#body").fadeIn(1000);
+					/*
+					//fade out page on menu click
 					$("#menu a").click(function() {
 						var a = this;
 						$("#body").fadeOut("fast", function() {
@@ -21,6 +23,7 @@
 							});
 						return false;
 						});
+					*/
 					});
 		</script>
 		<link rel="stylesheet" href="{{ STATIC_PREFIX }}css/jquery-ui/smoothness/jquery-ui.css"></script>
@@ -49,7 +52,6 @@
 				width: 800px;
 				background-color: #EEEEFF;
 				min-height: 600px;
-				display: none;
 			}
 			#content {
 				padding: 0px;
@@ -147,6 +149,9 @@
 			a {
 				text-decoration: none;
 				color: blue;
+			}
+			.form-error {
+				color: red;
 			}
 		</style>
 	{% block headcontent %} {% endblock %}

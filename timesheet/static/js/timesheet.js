@@ -12,7 +12,7 @@ $(document).ready(function() {
 		list.getChecked = getChecked;
 		list.updateRowClasses = updateRowClasses;
 		updateList();
-		$('form').find('[name="date"]').datepicker({ dateFormat:'yy-mm-dd' }).datepicker("setDate", new Date());
+		$('form').find('[name="date"]').datepicker({ dateFormat:'yy-mm-dd', firstDay: 1 }).datepicker("setDate", new Date());
 
 		times = findTimes(new Date());
 		$('form').find('[name="start_time"]').timepicker({}).timepicker("setTime", times[0]);
@@ -222,11 +222,26 @@ $(document).ready(function() { $(".message").hide(); });
 
 function findTimes(now) {
 	var h_now = now.getHours();
-	var h_start = h_now - h_now%2;
-	var m_start = 0;
 
-	var h_end = h_start + 2;
+	var h_start;
+	var m_start = 0;
+	var h_end;
 	var m_end = 0;
+	if (now.getDay() == 1 && (h_now == 14 || h_now == 15) ) {
+		//One hour meeting on mondays from 14 to 15
+		h_start = h_now;
+		h_end = h_now + 1;
+	} else if (isExams()) {
+	       //Different working hours during exams
+		h_start = 10;
+		m_start = 30;
+		h_end = 13;	
+		m_end = 0;
+	} else {
+		//normal hours
+		var h_start = h_now - h_now%2;
+		var h_end = h_start + 2;
+	}
 	var times = [
 		formatTime(h_start,m_start),
 		formatTime(h_end, m_end)
@@ -234,10 +249,13 @@ function findTimes(now) {
 	return times;
 }
 
+function isExams() {
+	return false;
+}
 
 
 function formatTime(hours,mins) {
-	hours += '';
+	hours += ''; //convert to string
 	mins += '';
 	while (hours.length < 2) hours = '0' + hours;
 	while (mins.length < 2) mins = '0' + mins;
