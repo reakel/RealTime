@@ -79,10 +79,10 @@ function timeDiff(endTime, startTime) {
 		<tr class="{% cycle 'odd' 'even' %}">
 			<td>{{ ts.first_date }}</td>
 			<td>{{ ts.last_date }}</td>
-			<td><div class="editbut {% if not ts.is_downloaded %}ui-state-highlight{% endif %}" value="{{ ts.id }}"></div></td>
+			<td><div class="editbut {% if not ts.is_downloaded %}ui-state-highlight{% endif %}" value="{{ ts.pk }}"></div></td>
             <td>
                 {% if not ts.is_downloaded %}
-                <a href="{% url 'timesheet.views.delete_timesheet' ts.id %}" class="delbut" value="{{ ts.id }}">x</a>
+                <a href="{% url 'timesheet.views.delete_timesheet' ts.pk %}" class="delbut" value="{{ ts.pk }}">x</a>
                 {% endif %}
             </td>
 		</tr>
