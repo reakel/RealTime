@@ -8,6 +8,7 @@ $(document).ready(function() {
 		var ts_id = $(this).attr('value');
 		window.location.href = "downloadtimesheet?ts=" + ts_id;
 		$('.editbut[value="' + ts_id + '"]').removeClass('ui-state-highlight');
+        $('.delbut[value="' + ts_id + '"]').remove();
 	});
 	$('.editbut')
 	.button({ icons: { primary: 'ui-icon-document' }, text: false, background: false})
@@ -70,6 +71,7 @@ function timeDiff(endTime, startTime) {
 			<th>First Date</th>
 			<th>Last Date</th>
 			<th></th>
+            <th></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -78,6 +80,11 @@ function timeDiff(endTime, startTime) {
 			<td>{{ ts.first_date }}</td>
 			<td>{{ ts.last_date }}</td>
 			<td><div class="editbut {% if not ts.is_downloaded %}ui-state-highlight{% endif %}" value="{{ ts.id }}"></div></td>
+            <td>
+                {% if not ts.is_downloaded %}
+                <a href="{% url 'timesheet.views.delete_timesheet' ts.id %}" class="delbut" value="{{ ts.id }}">x</a>
+                {% endif %}
+            </td>
 		</tr>
 		{% endfor %}
 	</tbody>

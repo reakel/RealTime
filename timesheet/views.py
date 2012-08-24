@@ -67,6 +67,18 @@ def download_timesheet(request):
     return response
 
 @login_required
+def delete_timesheet(request,sid):
+    try:
+        ts = Timesheet.objects.get(user=request.user,pk=sid)
+        if not ts.is_downloaded:
+            ts.entry_set.all().update(timesheet=None)
+            ts.delete()
+            return redirect(main_view)
+    except Timesheet.DoesNotExist:
+        pass
+    raise Http404()
+
+@login_required
 def show_timesheets(request,*args):
     timesheets = Timesheet.objects.filter(user=request.user).order_by('-pk')
     timesheets = timesheets.annotate(first_date=Min('entry__date'),last_date=Max('entry__date'))
