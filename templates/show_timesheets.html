@@ -15,7 +15,10 @@ $(document).ready(function() {
 	.css('height','18px')
 	.click(function() {
 		location.hash = '#!' + $(this).attr('value');
-	}); 
+	});
+    $('.delbut')
+            .button({ icons: { primary: 'ui-icon-arrowreturnthick-1-w' }, text: false, background: false})
+            .css('height','18px');
 	$(window).hashchange(function() {
 		var m = location.hash.match(/^#!(\d+)$/);
 		if (m) loadTimesheet(m[1]); 
@@ -82,7 +85,7 @@ function timeDiff(endTime, startTime) {
 			<td><div class="editbut {% if not ts.is_downloaded %}ui-state-highlight{% endif %}" value="{{ ts.pk }}"></div></td>
             <td>
                 {% if not ts.is_downloaded %}
-                <a href="{% url 'timesheet.views.delete_timesheet' ts.pk %}" class="delbut" value="{{ ts.pk }}">x</a>
+                <a href="{% url 'timesheet.views.delete_timesheet' ts.pk %}" class="delbut" value="{{ ts.pk }}">Undo</a>
                 {% endif %}
             </td>
 		</tr>
