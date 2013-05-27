@@ -1,6 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from timesheet.models import Entry
+
+
+class GenerateTimeheetError(Exception):
+    pass
+
+
 def skipfields(s, offset, n):
 	for j in range(0,n):
 		while s[offset] != 'F':
@@ -97,7 +103,7 @@ def make_timesheet(filename, timesheet):
     i = 0
     for e in entrylist:
         if not s[offset] == 'F': 
-            exit(1)
+	    raise GenerateTimesheetError('Could not parse timesheet file "%s"' % filename)
 
 	(offset, step) = writeentry(s, offset, step, e)
 	(offset,step) = skipfields(s,offset,11-5)
