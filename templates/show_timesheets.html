@@ -6,7 +6,7 @@
 $(document).ready(function() {
 	$('#dlts').button({ text: 'Download' }).click(function() {
 		var ts_id = $(this).attr('value');
-		window.location.href = "downloadtimesheet?ts=" + ts_id;
+		window.location.href = "downloadtimesheet/timesheet" + ts_id + ".doc";
 		$('.editbut[value="' + ts_id + '"]').removeClass('ui-state-highlight');
         $('.delbut[value="' + ts_id + '"]').remove();
 	});

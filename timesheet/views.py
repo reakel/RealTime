@@ -52,17 +52,20 @@ def make_timesheet(request):
 
 
 @login_required
-def download_timesheet(request):
+def download_timesheet(request, ts_id):
     filename = os.path.join(SITE_ROOT,'timesheet/timesheet.doc')
     if not request.method == "GET": return HttpResponse("FU")
     conds = { 'user': request.user}
-    ts = Timesheet.objects.filter(**conds).get(pk=request.GET["ts"])
+    ts = Timesheet.objects.filter(**conds).get(pk=ts_id)
     if not ts.is_downloaded:
         ts.is_downloaded = True
         ts.save()
     data = maketimesheet.make_timesheet(filename,ts)
-    response = HttpResponse(mimetype="application/doc")
-    response["Content-Disposition"] = "attachment; file-name=timesheet.doc"
+    response = HttpResponse(mimetype="application/msword")
+    response["Content-Description"] = "File Transfer"
+    response["Content-Disposition"] = 'inline; file-name="timesheet%s.doc"' % ts_id
+    response["Content-Transfer-Encoding"] = "binary"
+    response["Content-Length"] = len(data)
     response.write(data)
     return response
 
