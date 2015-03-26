@@ -3,7 +3,7 @@
 from timesheet.models import Entry
 
 
-class GenerateTimesheetError(Exception):
+class GenerateTimeheetError(Exception):
     pass
 
 
